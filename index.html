@@ -12,14 +12,14 @@
   header{background:#fff;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:14px;}
   header h1{font-size:18px;margin:0;}
   header .badge{font-size:11px;background:#e8f0fe;color:var(--blue);padding:3px 8px;border-radius:10px;}
-  main{max-width:1280px;margin:0 auto;padding:20px 24px 60px;}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:18px;}
+  main{max-width:1360px;margin:0 auto;padding:20px 24px 60px;}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:18px;}
   .card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
-  .card h2{font-size:14px;margin:0 0 8px;color:var(--blue);}
-  .drop{border:2px dashed #b9c4dc;border-radius:8px;padding:16px;text-align:center;font-size:13px;color:#5b6a8a;cursor:pointer;transition:.15s;}
+  .card h2{font-size:13px;margin:0 0 8px;color:var(--blue);}
+  .drop{border:2px dashed #b9c4dc;border-radius:8px;padding:14px;text-align:center;font-size:12px;color:#5b6a8a;cursor:pointer;transition:.15s;}
   .drop:hover,.drop.over{border-color:var(--blue);background:#eef3fe;}
   .drop.done{border-color:#1c9d5b;background:#ecfaf2;color:#177247;}
-  .filelist{font-size:12px;margin-top:6px;color:#177247;}
+  .filelist{font-size:11px;margin-top:6px;color:#177247;}
   label{font-size:12px;color:#5b6a8a;display:block;margin:8px 0 3px;}
   input[type=text]{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;}
   .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0;}
@@ -28,47 +28,54 @@
   button.sec{background:#fff;color:var(--blue);border:1px solid var(--blue);}
   .stat{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 12px;}
   .stat b{color:var(--blue);}
+  .stat b.warn{color:var(--red);}
   .tablewrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:auto;max-height:560px;}
   table{border-collapse:collapse;width:100%;font-size:12px;}
   th{position:sticky;top:0;background:#eef2fa;text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);white-space:nowrap;z-index:1;}
   td{padding:5px 8px;border-bottom:1px solid #eef1f7;white-space:nowrap;}
   tr:hover td{background:#f7f9ff;}
+  tr.notrk td{background:#fff8e6;}
   td input,td select{border:1px solid var(--border);border-radius:5px;padding:3px 5px;font-size:12px;}
-  td input.cust{width:150px;}
+  td input.cust{width:140px;} td input.grp{width:80px;}
   .num{text-align:right;font-variant-numeric:tabular-nums;}
-  .cat-MAU{background:#fff;} .cat-E18040 select{border-color:#e08a00;}
   .hint{font-size:12px;color:#5b6a8a;margin-top:6px;line-height:1.5;}
-  #search{width:220px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;}
-  .warn{color:var(--red);font-size:12px;}
-  footer{max-width:1280px;margin:0 auto;padding:0 24px 30px;font-size:11px;color:#8b97b0;}
+  #search{width:200px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;}
+  footer{max-width:1360px;margin:0 auto;padding:0 24px 30px;font-size:11px;color:#8b97b0;line-height:1.6;}
 </style>
 </head>
 <body>
 <header>
   <h1>Tạo file THANH TOÁN cước DHL</h1>
   <span class="badge">Xử lý 100% trên trình duyệt – dữ liệu không rời khỏi máy bạn</span>
+  <span class="badge" style="background:#ecfaf2;color:#177247;">Phiên bản 2 · không dòng total · CUSTOMER/GROUP từ bảng theo dõi</span>
 </header>
 <main>
   <div class="steps">
     <div class="card">
       <h2>Bước 1 · Hóa đơn DHL (bắt buộc)</h2>
-      <div class="drop" id="dropInv">Kéo thả hoặc bấm chọn file hóa đơn tải từ MyBill<br>(SGNR…xlsx / csv, chọn được nhiều file)</div>
+      <div class="drop" id="dropInv">Kéo thả file hóa đơn tải từ MyBill<br>(SGNR…xlsx / csv, nhiều file được)</div>
       <input type="file" id="fileInv" multiple accept=".xlsx,.xls,.csv" hidden>
       <div class="filelist" id="listInv"></div>
     </div>
     <div class="card">
-      <h2>Bước 2 · File DIM (tùy chọn)</h2>
-      <div class="drop" id="dropDim">Kéo thả file DIM DHL gởi qua email<br>(vd: 527174651.xlsx, chọn được nhiều file)</div>
+      <h2>Bước 2 · Bảng chi tiết hàng xuất bưu điện</h2>
+      <div class="drop" id="dropTrk">Kéo thả file theo dõi trên ổ B<br>(nạp cả tháng trước + tháng này để khớp đủ bill)</div>
+      <input type="file" id="fileTrk" multiple accept=".xlsx,.xls,.csv" hidden>
+      <div class="filelist" id="listTrk"></div>
+    </div>
+    <div class="card">
+      <h2>Bước 3 · File DIM (tùy chọn)</h2>
+      <div class="drop" id="dropDim">Kéo thả file DIM DHL gởi email<br>(vd: 527174651.xlsx)</div>
       <input type="file" id="fileDim" multiple accept=".xlsx,.xls,.csv" hidden>
       <div class="filelist" id="listDim"></div>
     </div>
     <div class="card">
-      <h2>Bước 3 · Thông tin chung</h2>
+      <h2>Bước 4 · Thông tin chung</h2>
       <label>Sender short name (đơn vị)</label>
       <input type="text" id="entity" value="SC BH">
-      <label>Tháng (tự nhận từ dữ liệu, sửa được)</label>
+      <label>Tháng</label>
       <input type="text" id="month" placeholder="T06">
-      <label>Số invoice/SOA (ghi lên dòng SUMARRY)</label>
+      <label>Số invoice/SOA (dòng SUMARRY)</label>
       <input type="text" id="invno" placeholder="tự lấy từ tên file nếu bỏ trống">
     </div>
   </div>
@@ -76,33 +83,34 @@
   <div class="toolbar">
     <input type="text" id="search" placeholder="Tìm bill / người nhận / ref…">
     <span class="stat">Tổng bill: <b id="stTotal">0</b></span>
-    <span class="stat">Mẫu+DOC: <b id="stMau">0</b></span>
-    <span class="stat">E18040: <b id="stE18040">0</b></span>
-    <span class="stat">E16011: <b id="stE16011">0</b></span>
-    <span class="stat">E16012: <b id="stE16012">0</b></span>
-    <span class="stat">Không tính: <b id="stKHONG">0</b></span>
+    <span class="stat">Khớp bảng theo dõi: <b id="stTrk">0</b></span>
+    <span class="stat">Chưa khớp: <b id="stNoTrk" class="warn">0</b></span>
     <button class="sec" id="btnClearMem">Xóa bộ nhớ phân loại</button>
     <button id="btnGen" disabled>⬇ Tạo file THANH TOAN .xlsx</button>
   </div>
-  <div class="hint">Phân loại từng bill ở cột <b>PHÂN LOẠI</b> (mặc định: Mẫu+DOC – dưới GP). Cột <b>CUSTOMER</b> gõ tay lần đầu; trang web sẽ <b>tự nhớ theo tên người nhận</b> cho các tháng sau (lưu trong trình duyệt của bạn).</div>
+  <div class="hint">Dòng <b style="background:#fff8e6;padding:0 4px;">màu vàng nhạt</b> = bill chưa có trong bảng theo dõi (thường là hàng gởi cuối tháng trước → nạp thêm file theo dõi tháng trước ở Bước 2, hoặc sửa tay CUSTOMER/GROUP ngay trên bảng). Cột <b>PHÂN LOẠI E</b> để mặc định "Chưa chia"; khi team hàng xuất báo thông tin thì chọn E tương ứng rồi tạo file lại — web sẽ tách thêm sheet theo E. <b>File tạo ra không có dòng total</b>, chị tự làm công thức sau.</div>
 
   <div class="tablewrap">
     <table id="tbl">
       <thead><tr>
         <th>#</th><th>Bill</th><th>Date</th><th>Customer reference</th><th>DES (người nhận)</th><th>Nước</th>
-        <th class="num">Kg</th><th class="num">Pcs</th><th class="num">FREIGHT</th><th class="num">FUEL</th><th class="num">Order</th><th class="num">TOTAL</th>
-        <th class="num">DIM REAL</th><th>CUSTOMER</th><th>PHÂN LOẠI</th>
+        <th class="num">Kg HĐ</th><th class="num">Pcs</th><th class="num">FREIGHT</th><th class="num">FUEL</th><th class="num">Order</th><th class="num">TOTAL</th>
+        <th>CUSTOMER</th><th>GROUP</th><th class="num">GW (kg Scavi)</th><th>DIM REAL</th><th>PHÂN LOẠI E</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
 </main>
-<footer>Mapping: FREIGHT = Weight Charge · FUEL = phụ phí FF (Fuel Surcharge) · Order = các phụ phí khác (YO…) · TOTAL = Total amount (excl. VAT) · DIM REAL = shp_vol_weight từ file DIM. File kết quả gồm sheet chính (dưới GP) + các sheet E (trên GP) + sheet không tính tiền.</footer>
+<footer>
+  Mapping: FREIGHT = Weight Charge · FUEL = phụ phí FF · Order = phụ phí khác (YO…) · TOTAL = Total amount (excl. VAT) · Kg HĐ = Weight (kg) hóa đơn ·
+  CUSTOMER / GROUP / GW = lấy từ Bảng chi tiết hàng xuất bưu điện theo số Bill · RATIO = Kg HĐ ÷ GW ·
+  DIM REAL = cao x dài x rộng từ file DIM · DIM SCAVI + cột trống khác: chị bổ sung sau. Sheet chính xếp theo CUSTOMER (A→Z), không có dòng total.
+</footer>
 
 <script>
 /*CORE-START*/
 var CATS = [
-  {key:'MAU',    label:'Mẫu + DOC (dưới GP)', sheet:null},
+  {key:'MAU',    label:'Chưa chia (dưới GP)', sheet:null},
   {key:'E18040', label:'PRODUCTION E18040',   sheet:'DHL-PRODUCTION- E18040'},
   {key:'E16011', label:'COLLECTION E16011',   sheet:'DHL-COLLECTION E16011'},
   {key:'E16012', label:'MATERIAL E16012',     sheet:'DHL- MATERIAL E16012'},
@@ -110,11 +118,18 @@ var CATS = [
 ];
 
 function norm(s){ return String(s==null?'':s).replace(/\s+/g,' ').trim(); }
-
+function billKey(v){
+  if (v==null) return '';
+  var s = String(v).trim();
+  if (/e\+/i.test(s)) s = Number(v).toFixed(0);
+  s = s.replace(/\.0+$/,'');
+  return /^\d{8,12}$/.test(s) ? s : '';
+}
 function findHeaderRow(rows, mustHave){
+  var want = mustHave.toUpperCase();
   for (var i=0;i<Math.min(rows.length,30);i++){
-    var set = (rows[i]||[]).map(norm);
-    if (set.indexOf(mustHave)>=0) return i;
+    var set = (rows[i]||[]).map(function(x){return norm(x).toUpperCase();});
+    if (set.indexOf(want)>=0) return i;
   }
   return -1;
 }
@@ -124,8 +139,9 @@ function colMap(hdrRow){
   return m;
 }
 function numVal(v){ if(v==null||v==='')return 0; var n=Number(String(v).replace(/,/g,'')); return isNaN(n)?0:n; }
+function trimNum(v){ var n=Number(v); if(isNaN(n))return String(v); return String(parseFloat(n.toFixed(2))); }
 
-// Parse one MyBill invoice workbook -> array of shipment records
+// ---- Parse MyBill invoice workbook -> shipment records
 function parseInvoice(wb, fileName){
   var out=[];
   for (var si=0; si<wb.SheetNames.length; si++){
@@ -135,8 +151,8 @@ function parseInvoice(wb, fileName){
     var c = colMap(rows[h]);
     for (var r=h+1;r<rows.length;r++){
       var row=rows[r]||[];
-      var bill=norm(row[c['Shipment Number']]);
-      if (!/^\d{8,12}$/.test(bill)) continue;
+      var bill=billKey(row[c['Shipment Number']]);
+      if (!bill) continue;
       var date = norm(row[c['Country Specific Label']]);
       if (!date){
         var sd=norm(row[c['Shipment Date']]);
@@ -161,8 +177,6 @@ function parseInvoice(wb, fileName){
         country: norm(row[c['Dest Country Code']]),
         countryName: norm(row[c['Dest Country Name']]),
         service: norm(row[c['Product Name']]),
-        gw: numVal(row[c['DHL Scale Weight (B)']]),
-        dimScavi: numVal(row[c['Cust Vol Weight (V)']]),
         srcFile: fileName
       });
     }
@@ -170,7 +184,40 @@ function parseInvoice(wb, fileName){
   return out;
 }
 
-// Parse DIM workbook -> map awb -> shp vol weight (max of shp_vol_weight_* columns)
+// ---- Parse "BANG CHI TIET HANG XUAT BUU DIEN" -> map bill -> {customer, group, gw, dimScavi}
+function parseTracking(wb){
+  var map={};
+  for (var si=0; si<wb.SheetNames.length; si++){
+    var ws = wb.Sheets[wb.SheetNames[si]];
+    var rows = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:null});
+    var h = findHeaderRow(rows,'BILL');
+    if (h<0) continue;
+    var hdrU = rows[h].map(function(x){return norm(x).toUpperCase();});
+    var iBill=hdrU.indexOf('BILL'), iGroup=hdrU.indexOf('GROUP'), iDes=hdrU.indexOf('DES'), iW=hdrU.indexOf('WEIGHT');
+    var iDim=-1;
+    hdrU.forEach(function(x,i){ if(iDim<0 && x.indexOf('DIM')>=0) iDim=i; });
+    if (iBill<0 || iGroup<0) continue;
+    // customer column: the unnamed column right before GROUP (unless it's the DES column itself)
+    var iCust = iGroup-1;
+    if (iCust===iDes || iCust===iBill) iCust=-1;
+    for (var r=h+1;r<rows.length;r++){
+      var row=rows[r]||[];
+      var bill=billKey(row[iBill]);
+      if (!bill) continue;
+      var cust = iCust>=0 ? norm(row[iCust]) : '';
+      if (!cust && iDes>=0) cust = norm(row[iDes]);
+      map[bill]={
+        customer: cust,
+        group: norm(row[iGroup]),
+        gw: iW>=0 ? numVal(row[iW]) : 0,
+        dimScavi: iDim>=0 ? norm(row[iDim]) : ''
+      };
+    }
+  }
+  return map;
+}
+
+// ---- Parse DIM workbook -> map awb -> "h x l x w" string (per piece)
 function parseDim(wb){
   var map={};
   for (var si=0; si<wb.SheetNames.length; si++){
@@ -178,15 +225,20 @@ function parseDim(wb){
     var h = findHeaderRow(rows,'awb_no');
     if (h<0) continue;
     var hdr = rows[h].map(norm);
-    var awbCol = hdr.indexOf('awb_no');
-    var shpCols = [];
-    hdr.forEach(function(x,i){ if (x.indexOf('shp_vol_weight')===0) shpCols.push(i); });
+    var iAwb=hdr.indexOf('awb_no'), iH=-1, iL=-1, iW=-1;
+    hdr.forEach(function(x,i){
+      if (x.indexOf('piece_heigth')===0||x.indexOf('piece_height')===0) iH=i;
+      if (x.indexOf('piece_length')===0) iL=i;
+      if (x.indexOf('piece_wdth')===0||x.indexOf('piece_width')===0) iW=i;
+    });
     for (var r=h+1;r<rows.length;r++){
       var row=rows[r]||[];
-      var awb=norm(row[awbCol]);
-      if (!/^\d{8,12}$/.test(awb)) continue;
-      var v=0; shpCols.forEach(function(i){ v=Math.max(v,numVal(row[i])); });
-      map[awb]=Math.max(map[awb]||0, v);
+      var awb=billKey(row[iAwb]);
+      if (!awb) continue;
+      var hh=row[iH], ll=row[iL], ww=row[iW];
+      if (hh==null||hh===''||ll==null||ww==null) continue;
+      var s = trimNum(hh)+'x'+trimNum(ll)+'x'+trimNum(ww);
+      map[awb] = map[awb] ? map[awb]+';'+s : s;
     }
   }
   return map;
@@ -195,29 +247,24 @@ function parseDim(wb){
 var HEADER22 = ['STT','Sender short\nname','Bill','Date','Customer reference','weight\n(kg)','pcs','FREIGHT','FUEL','Order','TOTAL\nVALUE','currency','DES','COUNTRY','Destination Code','CUSTOMER','GROUP','GW','RATIO','DIM REAL','DIM SCAVI','DICH VU/\nINVOICE NO.'];
 
 function recRow(rec, stt, entity){
+  var ratio = (rec.gw && rec.weight) ? rec.weight/rec.gw : '';
   return [stt, entity, rec.bill, rec.date, rec.ref, rec.weight||'', rec.pcs||'',
     rec.freight, rec.fuel, rec.order, rec.total, rec.currency,
-    rec.des, rec.country, rec.countryName, rec.customer||'', '', rec.gw||'', '',
+    rec.des, rec.country, rec.countryName,
+    rec.customer||'', rec.group||'', rec.gw||'', ratio,
     rec.dimReal||'', rec.dimScavi||'', rec.service];
 }
 
-// Build rows for one sheet: grouped by CUSTOMER with subtotals + grand total
+// ---- Build rows for one sheet: sorted by CUSTOMER, NO subtotal/total rows
 function buildSheetRows(records, entity, titleRows){
   var rows = titleRows.concat([HEADER22]);
-  var groups = {};
-  records.forEach(function(r){ var k=(r.customer||r.des||'').toUpperCase()||'(CHUA PHAN LOAI)'; (groups[k]=groups[k]||[]).push(r); });
-  var keys = Object.keys(groups).sort();
-  var stt=1, grand=0, grandF=0, grandFu=0, grandO=0;
-  keys.forEach(function(k){
-    var sub=0, subF=0, subFu=0, subO=0;
-    groups[k].forEach(function(r){
-      rows.push(recRow(r, stt++, entity));
-      sub+=r.total; subF+=r.freight; subFu+=r.fuel; subO+=r.order;
-    });
-    grand+=sub; grandF+=subF; grandFu+=subFu; grandO+=subO;
-    rows.push(['','','','','','','',subF,subFu,subO,sub,'','','','', k+' Total','','','','','','']);
+  var sorted = records.slice().sort(function(a,b){
+    var ka=(a.customer||a.des||'').toUpperCase(), kb=(b.customer||b.des||'').toUpperCase();
+    if (ka<kb) return -1; if (ka>kb) return 1;
+    return a.bill<b.bill?-1:1;
   });
-  rows.push(['','','','','','','',grandF,grandFu,grandO,grand,'','','','','GRAND TOTAL','','','','','','']);
+  var stt=1;
+  sorted.forEach(function(r){ rows.push(recRow(r, stt++, entity)); });
   return rows;
 }
 
@@ -225,15 +272,15 @@ function buildWorkbook(all, opts){
   var wb = XLSX.utils.book_new();
   var byCat = {}; CATS.forEach(function(c){ byCat[c.key]=[]; });
   all.forEach(function(r){ byCat[r.cat||'MAU'].push(r); });
+  var COLS = [{wch:4},{wch:9},{wch:12},{wch:11},{wch:22},{wch:8},{wch:5},{wch:12},{wch:12},{wch:10},{wch:13},{wch:8},{wch:26},{wch:8},{wch:14},{wch:20},{wch:12},{wch:8},{wch:8},{wch:16},{wch:12},{wch:24}];
 
   var mainTitle = [
     ['DEBIT NOTE FOR SENDING OF SAMPLE + DOC'],
     ['SUMARRY FOR INVOICES:', null, null, null, opts.invno],
     ['DUOI GP']
   ];
-  var mainRows = buildSheetRows(byCat['MAU'], opts.entity, mainTitle);
-  var wsMain = XLSX.utils.aoa_to_sheet(mainRows);
-  wsMain['!cols'] = [{wch:4},{wch:9},{wch:12},{wch:11},{wch:22},{wch:8},{wch:5},{wch:12},{wch:12},{wch:10},{wch:13},{wch:8},{wch:26},{wch:8},{wch:14},{wch:20},{wch:8},{wch:8},{wch:7},{wch:9},{wch:10},{wch:24}];
+  var wsMain = XLSX.utils.aoa_to_sheet(buildSheetRows(byCat['MAU'], opts.entity, mainTitle));
+  wsMain['!cols'] = COLS;
   XLSX.utils.book_append_sheet(wb, wsMain, ('DHL- '+opts.entity+' '+opts.month).slice(0,31));
 
   CATS.forEach(function(c){
@@ -244,7 +291,7 @@ function buildWorkbook(all, opts){
       [c.key==='KHONG' ? 'KHONG TINH TIEN' : 'TREN GP']
     ];
     var ws = XLSX.utils.aoa_to_sheet(buildSheetRows(byCat[c.key], opts.entity, title));
-    ws['!cols'] = wsMain['!cols'];
+    ws['!cols'] = COLS;
     XLSX.utils.book_append_sheet(wb, ws, c.sheet.slice(0,31));
   });
   return wb;
@@ -252,8 +299,8 @@ function buildWorkbook(all, opts){
 /*CORE-END*/
 
 // ---------------- UI ----------------
-var records = [], dimMap = {};
-var MEMKEY = 'dhl-thanhtoan-mapping-v1';
+var records = [], dimMap = {}, trkMap = {};
+var MEMKEY = 'dhl-thanhtoan-mapping-v2';
 function loadMem(){ try{ return JSON.parse(localStorage.getItem(MEMKEY))||{}; }catch(e){ return {}; } }
 function saveMem(m){ localStorage.setItem(MEMKEY, JSON.stringify(m)); }
 
@@ -265,7 +312,6 @@ function hookDrop(dropId, inputId, handler){
   d.ondragleave=function(){ d.classList.remove('over'); };
   d.ondrop=function(e){ e.preventDefault(); d.classList.remove('over'); handler(Array.from(e.dataTransfer.files)); };
 }
-
 function readWB(file){
   return file.arrayBuffer().then(function(buf){ return XLSX.read(buf, {type:'array'}); });
 }
@@ -279,18 +325,11 @@ hookDrop('dropInv','fileInv', function(files){
       return recs;
     });
   })).then(function(lists){
-    var mem = loadMem();
     lists.forEach(function(l){ l.forEach(function(r){
-      if (!records.some(function(x){return x.bill===r.bill;})){
-        var m = mem[r.des.toUpperCase()];
-        r.customer = m ? m.customer : r.des;
-        r.cat = m ? m.cat : 'MAU';
-        records.push(r);
-      }
+      if (!records.some(function(x){return x.bill===r.bill;})){ r.cat='MAU'; records.push(r); }
     });});
     document.getElementById('dropInv').classList.add('done');
     document.getElementById('listInv').textContent = names.join(' · ') || 'Không tìm thấy dữ liệu hóa đơn trong file!';
-    // auto month + invoice no
     var months={}; records.forEach(function(r){ var m=(r.date||'').slice(3,5); if(m) months[m]=(months[m]||0)+1; });
     var best=Object.keys(months).sort(function(a,b){return months[b]-months[a];})[0];
     if (best && !document.getElementById('month').value) document.getElementById('month').value='T'+best;
@@ -298,7 +337,22 @@ hookDrop('dropInv','fileInv', function(files){
       var invs = files.map(function(f){ var m=f.name.match(/([A-Z]{3,5}\d{6,})/); return m?m[1]:null; }).filter(Boolean);
       document.getElementById('invno').value = invs.join(', ');
     }
-    applyDim(); render();
+    enrich(); render();
+  });
+});
+
+hookDrop('dropTrk','fileTrk', function(files){
+  var names=[];
+  Promise.all(files.map(function(f){
+    return readWB(f).then(function(wb){
+      var m=parseTracking(wb); var n=Object.keys(m).length;
+      if(n){ names.push(f.name+' ('+n+' bill)'); }
+      Object.keys(m).forEach(function(k){ trkMap[k]=m[k]; });
+    });
+  })).then(function(){
+    document.getElementById('dropTrk').classList.add('done');
+    document.getElementById('listTrk').textContent = names.join(' · ') || 'Không tìm thấy cột BILL/GROUP trong file!';
+    enrich(); render();
   });
 });
 
@@ -308,52 +362,75 @@ hookDrop('dropDim','fileDim', function(files){
     return readWB(f).then(function(wb){
       var m=parseDim(wb); var n=Object.keys(m).length;
       if(n){ names.push(f.name+' ('+n+' AWB)'); }
-      Object.keys(m).forEach(function(k){ dimMap[k]=Math.max(dimMap[k]||0,m[k]); });
+      Object.keys(m).forEach(function(k){ dimMap[k]=m[k]; });
     });
   })).then(function(){
     document.getElementById('dropDim').classList.add('done');
     document.getElementById('listDim').textContent = names.join(' · ') || 'Không tìm thấy cột awb_no trong file!';
-    applyDim(); render();
+    enrich(); render();
   });
 });
 
-function applyDim(){ records.forEach(function(r){ if(dimMap[r.bill]) r.dimReal=dimMap[r.bill]; }); }
+// fill customer/group/gw from tracking > memory > DES; dim from dim file
+function enrich(){
+  var mem = loadMem();
+  records.forEach(function(r){
+    var t = trkMap[r.bill];
+    if (t){
+      r.fromTrk = true;
+      if (t.customer) r.customer = t.customer;
+      if (t.group) r.group = t.group;
+      if (t.gw) r.gw = t.gw;
+      if (t.dimScavi) r.dimScavi = t.dimScavi;
+    } else {
+      r.fromTrk = false;
+      var m = mem[r.des.toUpperCase()];
+      if (!r.customer) r.customer = m ? m.customer : r.des;
+      if (!r.group && m) r.group = m.group;
+    }
+    if (dimMap[r.bill]) r.dimReal = dimMap[r.bill];
+  });
+}
 
 function render(){
   var q=(document.getElementById('search').value||'').toUpperCase();
   var tb=document.getElementById('tbody'); tb.innerHTML='';
-  var counts={MAU:0,E18040:0,E16011:0,E16012:0,KHONG:0};
+  var nTrk=0;
   records.forEach(function(r,i){
-    counts[r.cat]++;
-    var hay=(r.bill+' '+r.des+' '+r.ref+' '+(r.customer||'')).toUpperCase();
+    if (r.fromTrk) nTrk++;
+    var hay=(r.bill+' '+r.des+' '+r.ref+' '+(r.customer||'')+' '+(r.group||'')).toUpperCase();
     if (q && hay.indexOf(q)<0) return;
     var tr=document.createElement('tr');
+    if (!r.fromTrk) tr.className='notrk';
     function td(t,cls){ var d=document.createElement('td'); d.textContent=t; if(cls)d.className=cls; tr.appendChild(d); return d; }
     td(i+1); td(r.bill); td(r.date); td(r.ref); td(r.des); td(r.country);
     td(r.weight,'num'); td(r.pcs,'num');
     td(r.freight.toLocaleString(),'num'); td(r.fuel.toLocaleString(),'num'); td(r.order.toLocaleString(),'num'); td(r.total.toLocaleString(),'num');
-    td(r.dimReal||'','num');
     var tdc=document.createElement('td'); var inp=document.createElement('input'); inp.className='cust'; inp.value=r.customer||'';
     inp.onchange=function(){ r.customer=inp.value; remember(r); }; tdc.appendChild(inp); tr.appendChild(tdc);
+    var tdg=document.createElement('td'); var ing=document.createElement('input'); ing.className='grp'; ing.value=r.group||'';
+    ing.onchange=function(){ r.group=ing.value; remember(r); }; tdg.appendChild(ing); tr.appendChild(tdg);
+    td(r.gw||'','num'); td(r.dimReal||'');
     var tds=document.createElement('td'); var sel=document.createElement('select');
     CATS.forEach(function(c){ var o=document.createElement('option'); o.value=c.key; o.textContent=c.label; if(r.cat===c.key)o.selected=true; sel.appendChild(o); });
-    sel.onchange=function(){ r.cat=sel.value; remember(r); render(); }; tds.appendChild(sel); tr.appendChild(tds);
+    sel.onchange=function(){ r.cat=sel.value; }; tds.appendChild(sel); tr.appendChild(tds);
     tb.appendChild(tr);
   });
   document.getElementById('stTotal').textContent=records.length;
-  Object.keys(counts).forEach(function(k){ var el=document.getElementById('st'+k); if(el) el.textContent=counts[k]; });
+  document.getElementById('stTrk').textContent=nTrk;
+  document.getElementById('stNoTrk').textContent=records.length-nTrk;
   document.getElementById('btnGen').disabled = records.length===0;
 }
 
 function remember(r){
   var mem=loadMem();
-  mem[r.des.toUpperCase()]={customer:r.customer, cat:r.cat};
+  mem[r.des.toUpperCase()]={customer:r.customer, group:r.group};
   saveMem(mem);
 }
 
 document.getElementById('search').oninput=render;
 document.getElementById('btnClearMem').onclick=function(){
-  if (confirm('Xóa toàn bộ phân loại đã nhớ (customer + loại E theo tên người nhận)?')) { localStorage.removeItem(MEMKEY); alert('Đã xóa.'); }
+  if (confirm('Xóa bộ nhớ customer/group đã nhớ theo tên người nhận?')) { localStorage.removeItem(MEMKEY); alert('Đã xóa.'); }
 };
 
 document.getElementById('btnGen').onclick=function(){
