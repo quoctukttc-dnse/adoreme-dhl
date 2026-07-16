@@ -210,7 +210,7 @@ function parseTracking(wb){
         customer: cust,
         group: norm(row[iGroup]),
         gw: iW>=0 ? numVal(row[iW]) : 0,
-        dimScavi: iDim>=0 ? norm(row[iDim]) : ''
+        dimScavi: iDim>=0 ? norm(row[iDim]).replace(/\*/g,'x') : ''
       };
     }
   }
